@@ -1,46 +1,43 @@
 import { AppShell } from "@/components/AppShell";
-import { QueuePreview } from "@/components/QueuePreview";
+import { InboxList } from "@/components/InboxList";
 import { SectionCard } from "@/components/SectionCard";
-import { appConfig } from "@/lib/config";
+import { listCapturedPosts } from "@/server/posts/service";
+import { InboxPost } from "@/types/posts";
 import styles from "./page.module.scss";
 
-export function HomePage() {
+export default async function HomePage() {
+  const posts: InboxPost[] = await listCapturedPosts();
+
   return (
     <AppShell>
       <section className={styles.hero}>
-        <p>MVP Scaffold</p>
+        <p>Inbox</p>
         <h1 className={styles.heroTitle}>
-          Review LinkedIn posts with guardrails first.
+          Review captured LinkedIn posts in one place.
         </h1>
         <p className={styles.heroDescription}>
-          This scaffold gives us a local review app, a capture-only browser helper,
-          and the initial domain model for queueing, blocking, and defer logic.
+          The extension already captures the visible post. This inbox gives the app
+          a simple place to list what has been saved locally and tee up the next
+          analysis and review steps.
         </p>
       </section>
 
       <section className={styles.cardGrid}>
         <SectionCard
           title="Capture"
-          description="Browser helper sends selected LinkedIn posts into the local inbox."
+          description="Click the Chrome extension on LinkedIn to save the visible post into the inbox."
         />
         <SectionCard
-          title="Analyze"
-          description="Posts receive summary, score, blacklist checks, and action recommendation."
+          title="Inbox"
+          description="Every saved post shows author, capture time, raw text, and current status."
         />
         <SectionCard
           title="Review"
-          description="The queue is filtered by guardrails, with daily action limits applied to final actions."
+          description="This gives us the starting point for scoring, triage, and decision workflows."
         />
       </section>
 
-      <QueuePreview />
-
-      <section className={styles.layoutCard}>
-        <h2>Project Layout</h2>
-        <pre className={styles.structure}>{appConfig.structure}</pre>
-      </section>
+      <InboxList posts={posts} />
     </AppShell>
   );
 }
-
-export default HomePage;

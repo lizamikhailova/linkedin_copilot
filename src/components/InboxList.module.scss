@@ -1,0 +1,163 @@
+.inbox {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-end;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.14), transparent 30%),
+    linear-gradient(135deg, var(--surface) 0%, var(--accent-soft) 100%);
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.description {
+  margin: 10px 0 0;
+  color: var(--muted);
+  max-width: 54ch;
+  line-height: 1.6;
+}
+
+.countBadge {
+  min-width: 110px;
+  padding: 14px 16px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 20px;
+  background: rgba(255, 250, 241, 0.75);
+  text-align: center;
+
+  strong,
+  span {
+    display: block;
+  }
+
+  strong {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  span {
+    margin-top: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+  }
+}
+
+.rows {
+  display: grid;
+}
+
+.row {
+  padding: 24px 28px;
+  border-top: 1px solid var(--border);
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+.rowTop,
+.rowFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.identity {
+  display: grid;
+  gap: 6px;
+}
+
+.author {
+  font-size: 1.05rem;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.status {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--text);
+  text-transform: capitalize;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.text {
+  margin: 18px 0 10px;
+  line-height: 1.7;
+  font-size: 1rem;
+  white-space: pre-wrap;
+}
+
+.toggle {
+  padding: 0;
+  margin: 0 0 18px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.link {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.emptyState {
+  padding: 32px 28px;
+
+  strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 58ch;
+  }
+}
+
+@media (max-width: 720px) {
+  .header,
+  .rowTop,
+  .rowFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .countBadge {
+    min-width: 0;
+  }
+}

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { createCapturedPost } from "@/server/posts/service";
+import { createCapturedPost, listCapturedPosts } from "@/server/posts/service";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
@@ -34,6 +34,31 @@ export async function POST(request: Request) {
       { error: message },
       {
         status: 400,
+        headers: corsHeaders,
+      },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const posts = await listCapturedPosts();
+
+    return NextResponse.json(
+      { posts },
+      {
+        status: 200,
+        headers: corsHeaders,
+      },
+    );
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unexpected fetch failure.";
+
+    return NextResponse.json(
+      { error: message },
+      {
+        status: 500,
         headers: corsHeaders,
       },
     );

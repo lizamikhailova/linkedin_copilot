@@ -1,6 +1,14 @@
-import { PostStatus } from "@prisma/client";
 import { capturedPostSchema, type CapturedPostInput } from "@/lib/validation";
 import { db } from "@/server/db";
+import { PostStatus } from "@/types/posts";
+
+export async function listCapturedPosts() {
+  return db.post.findMany({
+    orderBy: {
+      capturedAt: "desc",
+    },
+  });
+}
 
 export async function createCapturedPost(input: CapturedPostInput) {
   const data = capturedPostSchema.parse(input);
@@ -14,4 +22,3 @@ export async function createCapturedPost(input: CapturedPostInput) {
     },
   });
 }
-
