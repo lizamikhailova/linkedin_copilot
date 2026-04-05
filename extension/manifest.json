@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Engagement Copilot Helper",
+  "version": "0.1.0",
+  "description": "Capture LinkedIn posts into the local review app.",
+  "permissions": ["activeTab", "scripting", "tabs"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Capture current LinkedIn post"
+  }
+}

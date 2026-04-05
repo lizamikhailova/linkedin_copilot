@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus {
+  CAPTURED
+  ANALYZED
+  BLOCKED
+  DEFERRED
+  REVIEWED
+}
+
+enum RecommendedAction {
+  SKIP
+  LIKE_CANDIDATE
+  COMMENT_CANDIDATE
+  SAVE_FOR_LATER
+}
+
+enum DecisionAction {
+  SKIP
+  LIKE_CANDIDATE
+  COMMENT_CANDIDATE
+  SAVE_FOR_LATER
+}
+
+model Post {
+  id                String             @id @default(cuid())
+  sourceUrl         String?
+  authorName        String?
+  text              String
+  capturedAt        DateTime           @default(now())
+  summary           String?
+  topics            String?
+  tone              String?
+  relevanceScore    Int?
+  recommendedAction RecommendedAction?
+  status            PostStatus         @default(CAPTURED)
+  blacklistMatched  Boolean            @default(false)
+  blacklistReason   String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  decisions         Decision[]
+}
+
+model BlacklistEntry {
+  id        String   @id @default(cuid())
+  term      String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DailyLimitSettings {
+  id                     String   @id @default(cuid())
+  maxReviewsPerDay       Int      @default(25)
+  maxLikesPerDay         Int      @default(10)
+  maxCommentsPerDay      Int      @default(5)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model Decision {
+  id        String         @id @default(cuid())
+  postId    String
+  action    DecisionAction
+  note      String?
+  decidedAt DateTime       @default(now())
+  post      Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
